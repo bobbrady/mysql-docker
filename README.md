@@ -1,13 +1,13 @@
 # mysql-docker
 
-This repo provides a MySQL Docker container instance for development purposes. It utilizes basic best practices and could be used as a starting point for a production instance. Features included:
+This repo provides a MySQL Docker container instance for development purposes. It utilizes basic best practices and could be used as a starting point for a production instance. Features include:
 
-- Best practice: Docker managed volume for persisted MySQL data
-- Best practice: Bind mounted my.cnf config file for user managed configuration settings
+- Best practice: Docker managed volume for persisted MySQL data.
+- Best practice: Bind mounted my.cnf config file for user managed configuration settings.
 - Best practice: non-root "service" DB user created with empty start service database.
-- Best practice: Full UTF-8 support configuration
-- Passwords and other initialized environment variables loaded from .env file
-- Named bridge network used for future extensibility as other app containers added to services
+- Best practice: Full UTF-8 support configuration.
+- Passwords and other initialized environment variables loaded from .env file.
+- Named bridge network used for future extensibility as other app containers added to services.
 
 ## Usage
 
