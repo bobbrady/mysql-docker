@@ -1,13 +1,37 @@
-version: '3.7'
+version: '3.8'
 services:
-  db:
-    image: mysql:8.0
+  mysql-db:
+    image: mysql:${MYSQL_VERSION}
+    container_name: mysql-db
+    restart: unless-stopped
+    tty: true
+    # work around the "mbind: Operation not permitted" error
+    # https://stackoverflow.com/questions/55559386/how-to-fix-mbind-operation-not-permitted-in-mysql-error-log
+    cap_add:
+      - SYS_NICE
     environment:
-      MYSQL_ROOT_PASSWORD: 'password'
+      MYSQL_ROOT_HOST: '%'
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     ports:
       - '3306:3306'
-    expose:
-      - '3306'
     volumes:
-      # Data directory will be in the current directory
-      - ./mysql-data:/var/lib/mysql
+      # Data directory will be managed by Docker as a volume
+      - mysql-data:/var/lib/mysql
+      # Config will use a bind mount => User manages its CRUD
+      - ./my.cnf:/etc/my.cnf
+    networks:
+      - app-network
+
+
+# Docker managed volumes
+volumes:
+  mysql-data:
+    driver: local
+
+# Docker Network
+networks:
+  app-network:
+    driver: bridge
